@@ -1,0 +1,18 @@
+# depslib dependency file v1.0
+1670537802 source:/home/bsy3/Workspace/Codeblocks/DirTree/FileTree.c
+	"FileTree.h"
+	<string.h>
+	<dirent.h>
+	<ftw.h>
+	<assert.h>
+	<stdio.h>
+	<stdlib.h>
+	<unistd.h>
+
+1670342822 /home/bsy3/Workspace/Codeblocks/DirTree/FileTree.h
+
+1670537663 source:/home/bsy3/Workspace/Codeblocks/DirTree/main.c
+	<stdio.h>
+	<stdlib.h>
+	"FileTree.h"
+

@@ -1,8 +1,15 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include "FileTree.h"
 
 int main()
 {
-    printf("Hello world!\n");
-    return 0;
+   AddDirectory("/home/bsy3/Workspace/Codeblocks/");
+   AddDirectory("/home/bsy3/Workspace/gcc/");
+   AddDirectory("");
+
+
+   FindFile("main.c");
+   RemoveAll();
+   return 0;
 }
