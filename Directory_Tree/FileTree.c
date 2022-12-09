@@ -14,6 +14,8 @@
 #include <stdlib.h>
 #include <unistd.h>
 
+static short const OK = 0;
+
 static char const * const cErrPathLength = "error: path too long\n";
 static char const * const cErrEmptyList = "error: empty list\n";
 static char const * const cErrNotFound = "error: directory to remove not found\n";
@@ -65,7 +67,7 @@ static struct TNode* Search(char const* dir)
       struct TNode* pNode = pHead;
 
       // search for node
-      while (pNode != NULL && strcmp(pNode->directory, dir) != 0)
+      while (pNode != NULL && strcmp(pNode->directory, dir) != OK)
       {
          pNode = pNode->pNext;
       }
@@ -104,18 +106,17 @@ static int Compare(const char * filename, const struct stat * status, int flag)
 {
    assert(filename != NULL && status != NULL);
 
+   // find last entity of path
    char * pos = strrchr(filename, '/') + 1;
 
-   if (strcmp(pos, file2search) == 0 && // name matches
+   if (strcmp(pos, file2search) == OK && // name matches
         flag == FTW_F)                       // found item is a file
    {
       printf("%s\n", filename);
    }
 
-
-
    // always return 0, since we want to continue searching for the file
-   return 0;
+   return OK;
 }
 
 // searches the given file in the directories
@@ -138,7 +139,8 @@ void FindFile(const char* fileName)
             printf(cSearchFile, fileName, pNode->directory);
 
             // check if ftw was successful
-            if (ftw(pNode->directory, Compare, 0) != 0)
+            // '0' for full depth in directory
+            if (ftw(pNode->directory, Compare, 0) != OK)
             {
                fputs(cErrFTW, stderr);
             }
