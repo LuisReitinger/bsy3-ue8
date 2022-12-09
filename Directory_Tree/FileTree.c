@@ -43,6 +43,7 @@ static struct TNode * MakeNode(char const * dir)
       return NULL;
    }
 
+   // allocate memory for new directory
    struct TNode* pNewNode = (struct TNode*)malloc(sizeof(struct TNode));
 
    // check if allocation was successful
@@ -78,6 +79,7 @@ static struct TNode* Search(char const* dir)
    }
 }
 
+// finds the predecessor of the given node
 static struct TNode* Predecessor(struct TNode const * const node)
 {
    if (node != NULL)
@@ -96,7 +98,8 @@ static struct TNode* Predecessor(struct TNode const * const node)
    }
 }
 
-// compares given name to
+// compares given directory + filename to the file2search
+// status is in this case redundant, but necessary for the function's interface
 static int Compare(const char * filename, const struct stat * status, int flag)
 {
    assert(filename != NULL && status != NULL);
@@ -109,20 +112,30 @@ static int Compare(const char * filename, const struct stat * status, int flag)
       printf("%s\n", filename);
    }
 
-   // always return 0
+
+
+   // always return 0, since we want to continue searching for the file
    return 0;
 }
 
+// searches the given file in the directories
 void FindFile(const char* fileName)
 {
    if (fileName != NULL)
    {
+      // save filename we want to search
       file2search = fileName;
+
+      // node for iterating through the list
       struct TNode* pNode = pHead;
 
+      // iterate through list
       while (pNode != NULL)
       {
+         // print output
          printf(cSearchFile, fileName, pNode->directory);
+
+         // check if ftw was successful
          if (ftw(pNode->directory, Compare, 0) != 0)
          {
             fputs(cErrFTW, stderr);
@@ -179,7 +192,7 @@ void RemoveDirectory(char const* dir)
       {
          Predecessor(pFound)->pNext = pFound->pNext;
       }
-      // delete node
+      // free memory
       free(pFound); pFound = NULL;
    }
    else
@@ -190,13 +203,21 @@ void RemoveDirectory(char const* dir)
 
 void RemoveAll()
 {
-   struct TNode* pNode = NULL;
-
-   while (pHead != NULL)
+   if (pHead != NULL)
    {
-      pNode = pHead;
-      pHead = pNode->pNext;
+      struct TNode* pNode = NULL;
 
-      free(pNode); pNode = NULL;
+      while (pHead != NULL)
+      {
+         pNode = pHead;
+         pHead = pNode->pNext;
+
+         // free memory
+         free(pNode); pNode = NULL;
+      }
+   }
+   else
+   {
+      fputs(cErrEmptyList, stderr);
    }
 }

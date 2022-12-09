@@ -16,3 +16,20 @@
 	<stdlib.h>
 	"FileTree.h"
 
+1670585049 source:/home/bsy3/uebungen/bsy3-ue8/Directory_Tree/main.c
+	<stdio.h>
+	<stdlib.h>
+	"FileTree.h"
+
+1670342822 /home/bsy3/uebungen/bsy3-ue8/Directory_Tree/FileTree.h
+
+1670585142 source:/home/bsy3/uebungen/bsy3-ue8/Directory_Tree/FileTree.c
+	"FileTree.h"
+	<string.h>
+	<dirent.h>
+	<ftw.h>
+	<assert.h>
+	<stdio.h>
+	<stdlib.h>
+	<unistd.h>
+
