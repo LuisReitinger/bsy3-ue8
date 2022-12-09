@@ -123,24 +123,31 @@ void FindFile(const char* fileName)
 {
    if (fileName != NULL)
    {
-      // save filename we want to search
-      file2search = fileName;
-
-      // node for iterating through the list
-      struct TNode* pNode = pHead;
-
-      // iterate through list
-      while (pNode != NULL)
+      if (pHead != NULL)
       {
-         // print output
-         printf(cSearchFile, fileName, pNode->directory);
+         // save filename we want to search
+         file2search = fileName;
 
-         // check if ftw was successful
-         if (ftw(pNode->directory, Compare, 0) != 0)
+         // node for iterating through the list
+         struct TNode* pNode = pHead;
+
+         // iterate through list
+         while (pNode != NULL)
          {
-            fputs(cErrFTW, stderr);
+            // print output
+            printf(cSearchFile, fileName, pNode->directory);
+
+            // check if ftw was successful
+            if (ftw(pNode->directory, Compare, 0) != 0)
+            {
+               fputs(cErrFTW, stderr);
+            }
+            pNode = pNode->pNext;
          }
-         pNode = pNode->pNext;
+      }
+      else
+      {
+         fputs(cErrEmptyList, stderr);
       }
    }
    else
